@@ -1,0 +1,48 @@
+#include <stdio.h>
+void implimentBestFit(int bs[], int b, int ps[], int p)
+{
+    int a[p];
+    int o[b];
+    for(int i = 0; i < p; i++){
+        a[i] = -1;
+    }
+    for(int i = 0; i < b; i++){
+        o[i] = 0;
+    }
+    for (int i = 0; i < p; i++)
+    {
+        int indexPlaced = -1;
+        for (int j = 0; j < b; j++) { 
+            if (bs[j] >= ps[i] && !o[j])
+            {
+                if (indexPlaced == -1)
+                    indexPlaced = j;
+                else if (bs[j] < bs[indexPlaced])
+                    indexPlaced = j;
+            }
+        }
+        if (indexPlaced != -1)
+        {
+            a[i] = indexPlaced;
+            o[indexPlaced] = 1;
+        }
+    }
+    printf("\nprocess no.\tprocess size\tblock no.\n");
+    for (int i = 0; i < p; i++)
+    {
+        printf("%d \t\t\t %d \t\t\t", i+1, ps[i]);
+        if (a[i] != -1)
+            printf("%d\n",a[i] + 1);
+        else
+            printf("not allocated\n");
+    }
+}
+int main()
+{
+    int bs[] = {100, 50, 30, 120, 35};
+    int ps[] = {40, 10, 30, 60};
+    int b = sizeof(bs)/sizeof(bs[0]);
+    int p = sizeof(ps)/sizeof(ps[0]);
+    implimentBestFit(bs, b, ps, p);
+    return 0 ;
+}
